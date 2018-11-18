@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head">
+<meta charset="UTF-8" />
+<title
+	th:text="'Spring Boot: MVC + Thymeleaf + Data JPA - ' + ${titulo}">Insert
+	title here</title>
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+<link th:href="@{/css/login.css}" href="/css/login.css" rel="stylesheet"
+	type="text/css" />
+</head>
+<body>
+	<header th:fragment="header">
+		<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+			<a class="navbar-brand" href="#">Spring Boot</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><a class="nav-link" th:href="@{/}"
+						th:text="#{text.menu.home}">Home</a></li>
+					<li class="nav-item"><a class="nav-link" href="#"
+						th:href="@{/listar}" th:text="#{text.menu.customer}">Cliente</a></li>
+				</ul>
+				<ul class="navbar-nav navbar-right">
+					<li sec:authorize="!isAuthenticated()"><a
+						class="btn btn-outline-light bg-primary" th:href="@{/login}"
+						th:text="#{text.menu.signin}">Iniciar Sesión</a></li>
+
+					<li sec:authorize="isAuthenticated()" class="dropdown show"><a
+						class="btn btn-outline-light bg-primary text-light dropdown-toggle"
+						href="#" role="button" id="dropdownMenuLink"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span sec:authentication="name"></span>
+					</a>
+
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+							<form id="logoutForm" th:action="@{/logout}" method="post">
+								<button class="dropdown-item"
+									onclick="document.getElementById('logoutForm').submit();"
+									type="submit" th:text="#{text.menu.signout}">Salir</button>
+							</form>
+
+						</div></li>
+				</ul>
+				<ul class="navbar-nav navbar-right mx-4">
+
+					<li class="dropdown show"><a
+						class="btn btn-outline-light bg-primary text-light dropdown-toggle"
+						href="#" role="button" id="dropdownLenguaje"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
+							th:text="#{text.locale.language}"></span></a>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+							<a class="dropdown-item" th:href="@{/locale(lang=es_ES)}"
+								th:text="#{text.locale.es}">ES</a> <a class="dropdown-item"
+								th:href="@{/locale(lang=en_US)}" th:text="#{text.locale.en}">EN</a>
+							<a class="dropdown-item" th:href="@{/locale(lang=de_DE)}"
+								th:text="#{text.locale.de}">DE</a>
+						</div></li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="alert alert-success" th:if="${success != null}"
+			th:text="${success}"></div>
+		<div class="alert alert-danger" th:if="${error != null}"
+			th:text="${error}"></div>
+		<div class="alert alert-warning" th:if="${warning != null}"
+			th:text="${warning}"></div>
+		<div class="alert alert-info" th:if="${info != null}"
+			th:text="${info}"></div>
+	</header>
+	<div class="container"></div>
+
+	<footer th:fragment="footer" class="container">
+		<hr />
+		<img th:src="@{/images/spring.png}" alt="Spring Logo" />
+		<p sec:authorize="isAuthenticated()">
+			<span th:text="#{text.footer.user}">Usuario Logueado: </span> <span
+				sec:authentication="name"></span><span th:text="#{text.footer.roles}"> | Roles: </span><span
+				sec:authentication="principal.authorities"></span>
+		</p>
+		<p th:utext="#{text.footer.powered}">
+			Powered by <a href="https://projects.spring.io/spring-boot">Spring
+				Boot</a> y <a href="http://www.thymeleaf.org">Thymeleaf</a>.
+		</p>
+		<p th:utext="#{text.footer.copy}">
+			Este proyecto fue desarrollado en IDE Eclipse + Spring Plugins (STS
+			Spring Tools), Andés Gasca.<br />&copy; Company 2018, Inc. Todos los
+			derechos reservados. Términos de uso y privacidad.
+		</p>
+		<!-- Optional JavaScrit -->
+		<!-- JQuery first, then Bootsrap -->
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	</footer>
+
+</body>
+</html>
